@@ -8,10 +8,10 @@ Next.js App Router を使う、TypeScript + Tailwind CSS の最小Webアプリ�
 - Next.js 16.4.6（App Router、Turbopack）
 - React 19.3.1 / TypeScript / Tailwind CSS v4
 - ESLint（Next.js Core Web Vitals）
-- GitHub Actions（lint / 型チェック / build）
+- GitHub Actions（lint / 型チェック / build / Playwright E2E）
 - VercelにGitHub連携済み（Production: https://next-app-dun-six-88.vercel.app）
 
-> 現時点で認証・DB・Supabase・AI APIは導入していません。必要な機能が決まってから追加します。
+> Supabase Authの接続コードを追加しています。アプリ専用のSupabase環境変数が未設定の場合は安全なUIデモとして動作します。ユーザー用アプリテーブル・AI機能は未導入です。
 
 ## 開発の始め方
 
@@ -36,15 +36,15 @@ http://localhost:3000 を開いてください。機能開発は`main`からfeat
 | `npm run build` | 本番向けビルド |
 | `npm run start` | ビルド後のローカル本番起動 |
 
-### ログイン・新規登録ページ（画面のみ）
+### ログイン・新規登録（Supabase Auth）
 
 - `/login`：メールアドレス・パスワードの入力、パスワードの表示切り替え
 - `/signup`：メールアドレス・パスワード・確認用パスワードの入力、一致確認
 - ホーム・ログイン・新規登録で共通の上部ナビゲーションを利用します。ホーム右上は「ログイン」、ログインページ右上は「新規登録」、新規登録ページ右上は「ログイン」に切り替わり、ロゴからいつでもホームへ戻れます。
 
-**重要：認証・ユーザー登録サービスは未接続です。** 画面はUIプレビューであり、実際のログイン・アカウント作成・パスワードの照合・保存はできません。送信操作はブラウザ内で止め、認証APIへデータは送信しません。実際のパスワードを入力しないよう画面にも注意を表示しています。
+**重要：環境変数が未設定なら画面デモのままです。** この状態ではフォームをネットワーク送信せず、パスワード入力を避ける注意を表示します。専用Supabaseプロジェクトと環境変数を設定すると、Supabase Authを利用した登録・ログイン・メール確認・ログアウトが有効になります。
 
-本番の認証を有効にする場合は、認証プロバイダー・メール確認・パスワードリセット・セッション管理・エラー表示・環境変数などを別PRで設計・検証してから接続します。
+接続前に **[認証のセットアップ手順](docs/development/AUTH_SETUP.md)** を確認してください。認証済みユーザーは `/account` でアカウントを確認できます。ログイン状態はCookieを用いるNext.js 16のProxyで更新し、ユーザー判定はSupabase Authで検証します。パスワード再設定や外部ログインは後続の開発対象です。
 
 ### UI操作の自動テスト（Playwright）
 
