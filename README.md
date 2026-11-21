@@ -66,15 +66,30 @@ GitHub ActionsのCIは `npm ci`、Lint、型チェック、Buildに続いてChro
 ## ディレクトリ
 
 ```text
-app/                    App Router（画面・共通レイアウト・スタイル）
-  page.tsx              最初のホーム画面
-  layout.tsx            共通レイアウトとメタデータ
-  globals.css           Tailwind CSS v4
-  icon.svg              ファビコン
-docs/development/       開発ワークフロー・引き継ぎ
-.github/workflows/      PR/メインブランチの自動チェック
-AGENTS.md               Codex用の最小ルール
+app/                        App Router（URLは page.tsx で定義）
+  layout.tsx                全画面共通のルートレイアウト
+  page.tsx                  ホーム /
+  login/page.tsx            ログイン /login
+  signup/page.tsx           新規登録 /signup
+  globals.css               共通スタイル
+  icon.svg                  ファビコン
+  _components/              非ルーティングの内部UI（private folder）
+    site-header.tsx         共通ヘッダー
+    login-button.tsx        共通ヘッダーの右上リンク
+    auth/                   ログイン・新規登録で共有するUI
+      auth-page.tsx
+      auth-form.tsx
+    guide/                  ホーム専用ガイドUI
+      guide-tabs.tsx
+      delivery-flow.tsx
+tests/e2e/                  Playwright操作テスト
+docs/development/           開発ワークフロー・引き継ぎ
+.github/workflows/          PR・mainのCI
+AGENTS.md                   開発ルール
+playwright.config.ts        UIテスト設定
 ```
+
+> 構成方針：Next.js公式の[Project Structure](https://nextjs.org/docs/app/getting-started/project-structure)に沿い、ルート用の`page.tsx`・`layout.tsx`と内部UIを分離しています。`_components`はプライベートフォルダでありURLには現れません。共通UIを直下に、画面専用UIを`auth/`・`guide/`に配置します。現在の規模では`src/`への移行やRoute Groupsは不要と判断し、採用していません。デザイン・機能・既存URLは変えません。
 
 ## GitHubへの導入とPR運用
 

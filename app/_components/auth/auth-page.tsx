@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AuthForm from "./auth-form";
-import SiteHeader from "./site-header";
+import SiteHeader from "../site-header";
 
 type AuthMode = "login" | "signup";
 

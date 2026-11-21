@@ -1,6 +1,6 @@
-import GuideTabs from "./guide-tabs";
-import SiteHeader from "./site-header";
-import DeliveryFlow from "./delivery-flow";
+import GuideTabs from "./_components/guide/guide-tabs";
+import SiteHeader from "./_components/site-header";
+import DeliveryFlow from "./_components/guide/delivery-flow";
 
 // Resource icons from Octicons, Simple Icons, and Feather.
 const githubIcon = (

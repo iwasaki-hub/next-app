@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import appIcon from "./icon.svg";
+import appIcon from "../icon.svg";
 import LoginButton from "./login-button";
 
 type HeaderAction = "login" | "signup";
