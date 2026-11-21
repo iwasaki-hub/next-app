@@ -106,10 +106,53 @@ body {
   font-size: 20px;
 }
 
+.guide-tab-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #edf5f2;
+}
+
+.guide-tab {
+  min-height: 48px;
+  padding-inline: 10px;
+  border-radius: 11px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+}
+
+.guide-tab:hover {
+  color: var(--accent);
+}
+
+.guide-tab[aria-selected="true"] {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgb(8 126 111 / 10%);
+}
+
+.guide-tab:focus-visible,
+.guide-tab-panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.guide-tab-panel[hidden] {
+  display: none;
+}
+
 .workflow {
-  margin-block-start: 24px;
-  border-block-start: 1px solid var(--line);
-  padding-block-start: 17px;
+  margin-block-start: 0;
+  border-block-start: none;
+  padding-block-start: 0;
 }
 
 .guide h2 {
