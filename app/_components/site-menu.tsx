@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef } from "react";
 
 export default function SiteMenu({
@@ -9,7 +8,6 @@ export default function SiteMenu({
 }: {
   headerAction: "login" | "signup" | "logout";
 }) {
-  const pathname = usePathname();
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const accountLink = {
@@ -26,11 +24,9 @@ export default function SiteMenu({
   }
 
   useEffect(() => {
-    if (pathname !== "/") return;
-
     window.addEventListener("scroll", closeMenu, { passive: true });
     return () => window.removeEventListener("scroll", closeMenu);
-  }, [pathname]);
+  }, []);
 
   return (
     <>

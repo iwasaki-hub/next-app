@@ -67,3 +67,22 @@ test("home menu switches icons and closes on scroll", async ({ page }) => {
   await expect(openIcon).toBeVisible();
   await expect(closeIcon).toBeHidden();
 });
+
+for (const route of ["/admin", "/login", "/signup"]) {
+  test(`menu closes on scroll at ${route}`, async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 320 });
+    await page.goto(route);
+
+    const toggle = page.getByRole("button", { name: "メニュー" });
+    const guide = page.getByRole("link", { name: "開発ガイド" });
+    await toggle.click();
+    await expect(guide).toBeVisible();
+    await expect(toggle.locator(".site-menu-icon-close")).toBeVisible();
+
+    await page.mouse.move(20, 290);
+    await page.mouse.wheel(0, 200);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await expect(guide).toBeHidden();
+    await expect(toggle.locator(".site-menu-icon-open")).toBeVisible();
+  });
+}
