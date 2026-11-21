@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import appIcon from "./icon.svg";
 import GuideTabs from "./guide-tabs";
 import LoginButton from "./login-button";
@@ -113,10 +114,10 @@ export default function Home() {
     <>
       <header className="site-header">
         <nav className="site-header-inner" aria-label="サイトナビゲーション">
-          <a className="brand" href="/" aria-label="next-app ホーム">
+          <Link className="brand" href="/" aria-label="next-app ホーム">
             <Image src={appIcon} width={32} height={32} alt="" />
             <span>next-app</span>
-          </a>
+          </Link>
           <LoginButton />
         </nav>
       </header>
