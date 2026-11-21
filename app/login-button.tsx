@@ -6,7 +6,7 @@ export default function LoginButton() {
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  function handleEscape(event: KeyboardEvent<HTMLDivElement>) {
+  function handleEscape(event: KeyboardEvent<HTMLButtonElement>) {
     if (event.key === "Escape") {
       setIsNoticeOpen(false);
       buttonRef.current?.focus();
@@ -14,13 +14,14 @@ export default function LoginButton() {
   }
 
   return (
-    <div className="login-control" onKeyDown={handleEscape}>
+    <div className="login-control">
       <button
         ref={buttonRef}
         type="button"
         className="login-button"
         aria-controls="login-notice"
         aria-expanded={isNoticeOpen}
+        onKeyDown={handleEscape}
         onClick={() => setIsNoticeOpen((open) => !open)}
       >
         <svg
@@ -47,6 +48,7 @@ export default function LoginButton() {
         <button
           className="login-notice-close"
           type="button"
+          onKeyDown={handleEscape}
           onClick={() => {
             setIsNoticeOpen(false);
             buttonRef.current?.focus();
