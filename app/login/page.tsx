@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AuthPage from "../auth-page";
+import AuthPage from "../_components/auth/auth-page";
 
 export const metadata: Metadata = {
   title: "ログイン | next-app",
