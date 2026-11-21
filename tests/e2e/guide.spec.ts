@@ -52,29 +52,13 @@ test("tab keyboard navigation supports arrows, Home, End, and wrapping", async (
   await expect(delivery).toHaveAttribute("aria-selected", "true");
 });
 
-test("login button explains the unavailable feature and can be dismissed", async ({
+test("header login link navigates to the dedicated login page", async ({
   page,
 }) => {
-  const login = page.getByRole("button", { name: "ログイン" });
-  const notice = page.getByRole("status");
-
-  await expect(login).toHaveAttribute("aria-expanded", "false");
-  await expect(notice).toBeHidden();
-
-  await login.click();
-  await expect(login).toHaveAttribute("aria-expanded", "true");
-  await expect(notice).toContainText("ログイン機能は準備中です");
-
-  await page.getByRole("button", { name: "閉じる" }).click();
-  await expect(login).toHaveAttribute("aria-expanded", "false");
-  await expect(notice).toBeHidden();
-  await expect(login).toBeFocused();
-
-  await login.click();
-  await page.getByRole("button", { name: "閉じる" }).focus();
-  await page.keyboard.press("Escape");
-  await expect(notice).toBeHidden();
-  await expect(login).toBeFocused();
+  await page.getByRole("link", { name: "ログイン", exact: true }).click();
+  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByRole("heading", { name: "ログイン", exact: true })).toBeVisible();
+  await expect(page.getByRole("note")).toContainText("認証・ユーザー登録は利用できません");
 });
 
 test("hero link navigates to the guide section", async ({ page }) => {
