@@ -1,20 +1,22 @@
-# Handoff（初期状態）
+# Handoff（Vercel初回公開後）
 
 ## 現在地
-- Next.js 16 / TypeScript / Tailwind CSS の初期構成をfeatureブランチに追加。
-- PR/CIで確認後、次の開発タスクを決める。
+- Next.js 16 / TypeScript / Tailwind CSSの初期構成はPR #1でmainへマージ済み。
+- GitHub Actionsで依存インストール・lint・typecheck・buildが成功済み。
+- Vercel GitHub連携とProductionデプロイは完了（初回Deployment READY）。
+- 今回のPRで `engines.node` = `24.x` に固定し、CIも `.nvmrc` を使ってNode 24へ統一する。
 
-## 検証状況
-- ローカルでの npm install / lint / typecheck / build は **未実施**（依存取得のための外部接続が不可）。
-- GitHub Actionsの実行結果はPR作成後に確認する。
-- iPhone/ブラウザでの実機表示確認は **未実施**。
+## 警告と未解決事項
+- Node.jsの幅広いバージョン指定警告: 今回の変更で解消を図り、Vercel Previewで検証する。
+- `npm warn Unknown env config "cache-dir"`: Vercelのビルド環境由来とみられ、リポジトリ側での確実な解消は未確認。
+- ESLint 9 EOL: 周辺プラグインのESLint 10互換に問題が残るため、強制的なメジャー更新はせず別課題として管理。
+- `package-lock.json` 未登録。作成後にCIを `npm ci` へ切り替える必要がある。
+- ブラウザやiPhone Safariでの表示確認は未実施。
 
 ## 次の一手
-1. PRで差分とGitHub Actionsを確認し、必要なら修正。
-2. npm install によりpackage-lock.jsonを生成し、別PRでコミット。その後CIを npm ci に変更。
-3. Vercelにリポジトリを接続しPreviewを確認（ユーザーの指示後）。
-4. 開発する最初の機能の仕様・Done whenを確定。
+1. 今回のPRのCIとVercel Previewが成功することを確認する。
+2. PRをレビューし、ユーザーの指示後にマージしてProductionを確認する。
+3. ロックファイルを追加し、依存解決を固定する。
+4. Next.jsのプラグイン群のESLint 10対応を確認し、安全な移行を別PRで進める。
 
-## 安全
-- mainに直接変更しない。
-- DB/認証/本番公開/Secretsの追加は別途の設計・承認後。
+参考: [Vercel警告の分析](DEPLOY_WARNINGS.md)
