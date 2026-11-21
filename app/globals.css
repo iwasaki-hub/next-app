@@ -24,7 +24,9 @@ body {
   width: 100%;
   max-width: 39rem;
   margin-inline: auto;
-  padding: 24px clamp(20px, 6.4vw, 32px) 36px;
+  padding: calc(24px + env(safe-area-inset-top, 0px))
+    clamp(20px, 6.4vw, 32px)
+    calc(112px + env(safe-area-inset-bottom, 0px));
 }
 
 .brand {
@@ -106,12 +108,28 @@ body {
   font-size: 20px;
 }
 
+/* Bottom navigation stays visible while content scrolls, including on iPhone. */
+.guide-tab-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: 10px max(20px, env(safe-area-inset-left, 0px))
+    calc(10px + env(safe-area-inset-bottom, 0px))
+    max(20px, env(safe-area-inset-right, 0px));
+  border-top: 1px solid var(--line);
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 -3px 18px rgb(23 33 38 / 7%);
+}
+
 .guide-tab-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
+  width: 100%;
+  max-width: 39rem;
+  margin-inline: auto;
   padding: 5px;
-  margin-bottom: 22px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: #edf5f2;
