@@ -1,8 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-import appIcon from "./icon.svg";
 import GuideTabs from "./guide-tabs";
-import LoginButton from "./login-button";
+import SiteHeader from "./site-header";
 import DeliveryFlow from "./delivery-flow";
 
 // Resource icons from Octicons, Simple Icons, and Feather.
@@ -113,15 +110,7 @@ const steps = [
 export default function Home() {
   return (
     <>
-      <header className="site-header">
-        <nav className="site-header-inner" aria-label="サイトナビゲーション">
-          <Link className="brand" href="/" aria-label="next-app ホーム">
-            <Image src={appIcon} width={32} height={32} alt="" />
-            <span>next-app</span>
-          </Link>
-          <LoginButton />
-        </nav>
-      </header>
+      <SiteHeader />
       <main className="guide">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-content">
