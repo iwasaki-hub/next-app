@@ -49,6 +49,17 @@ export default function GuideTabs({
 
   return (
     <div className="guide-tab-container" id="guide-content">
+      <div className="guide-card-intro">
+        <span className="guide-card-kicker">AT A GLANCE</span>
+        <h2 className="guide-card-title">
+          {activeTab === "links" ? "必要なものは、ここに。" : "一歩ずつ、進めよう。"}
+        </h2>
+        <p>
+          {activeTab === "links"
+            ? "よく使う開発リソースをひとつにまとめました。"
+            : "セットアップから実装まで、順番に確認できます。"}
+        </p>
+      </div>
       <div className="guide-tab-bar">
         <div
           className="guide-tab-list"
