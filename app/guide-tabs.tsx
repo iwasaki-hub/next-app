@@ -48,7 +48,7 @@ export default function GuideTabs({
   }
 
   return (
-    <div className="guide-tab-container">
+    <div className="guide-tab-container" id="guide-content">
       <div className="guide-tab-bar">
         <div
           className="guide-tab-list"
