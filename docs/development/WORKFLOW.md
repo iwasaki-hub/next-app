@@ -19,9 +19,10 @@
 
 ## Bootstrap固有の保留事項
 
-- 依存のインストール・Next.jsビルドは、この初期PRを作成した環境では実行できていない。
-- `package-lock.json` は次のPRで生成・追加し、その後CIを `npm ci` に変更する。
-- Vercel連携、独自ドメイン、本番公開は未実施。
+- Node.js 24系（`.nvmrc` / `engines.node`）を使用。依存のインストールは `npm ci` と `package-lock.json` で再現性を保つ。
+- 依存追加・更新時は `npm install` で2つのファイル（`package.json`, `package-lock.json`）を同時に更新し、PRで差分をレビューする。
+- GitHub Actionsは `npm ci`、npmキャッシュ、lint、型チェック、buildを実行する。マージ前に実際の結果を確認する。
+- VercelはGitHub連携済みで初回Productionを公開済み。Preview / Productionの検証を混同しない。
 - 現在はWebの最小構成のみ。DB・認証・AI・ビジネス機能は未導入。
 
 ## Codex Tips

@@ -21,11 +21,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
 
-      # No lockfile is committed in the bootstrap PR.
-      # After adding package-lock.json, switch to npm ci and enable npm cache.
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
+      # Install exact package-lock.json versions, with npm cache for faster runs.
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
 
       - name: Lint
         run: npm run lint
