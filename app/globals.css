@@ -139,20 +139,162 @@ body {
   font-weight: 740;
 }
 
-.guide h1 {
-  border-inline-start: 5px solid var(--accent);
-  padding-inline-start: 13px;
-  margin: 28px 0 8px;
-  font-size: clamp(30px, 8.4vw, 45px);
-  line-height: 1.13;
-  letter-spacing: -0.035em;
+/* A quiet mint hero that continues the existing mobile-first palette. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 300px;
+  margin-bottom: 28px;
+  padding: clamp(28px, 6.5vw, 44px) clamp(24px, 6vw, 40px);
+  border: 1px solid #cce8df;
+  border-radius: 26px;
+  background: linear-gradient(140deg, #e5f6f0 0%, #effaf6 60%, #f9fdfa 100%);
 }
 
-.intro {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 0 0 24px;
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 30rem;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: #087e6f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hero-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #173b35;
+  font-size: clamp(32px, 7.8vw, 45px);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.045em;
+}
+
+.hero h1 span {
+  display: block;
+  color: var(--accent);
+}
+
+.hero-description {
+  position: relative;
+  max-width: 25rem;
+  margin: 18px 0 23px;
+  color: #455b56;
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 19px;
+  border-radius: 13px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.hero-cta:hover {
+  background: #06695e;
+}
+
+.hero-cta:active {
+  transform: translateY(1px);
+}
+
+.hero-cta:focus-visible {
+  outline: 3px solid #11473f;
+  outline-offset: 3px;
+}
+
+.hero-decoration {
+  position: absolute;
+  z-index: 0;
+  right: -44px;
+  bottom: -75px;
+  width: 215px;
+  height: 215px;
+  transform: rotate(-17deg);
+  pointer-events: none;
+}
+
+.hero-decoration-ring {
+  position: absolute;
+  inset: 0;
+  border: 25px solid rgb(8 126 111 / 8%);
+  border-radius: 50%;
+}
+
+.hero-decoration-card {
+  position: absolute;
+  top: 60px;
+  left: 37px;
+  display: grid;
+  gap: 12px;
+  width: 128px;
+  padding: 22px 18px;
+  border: 1px solid rgb(8 126 111 / 15%);
+  border-radius: 18px;
+  background: rgb(255 255 255 / 67%);
+  box-shadow: 0 12px 30px rgb(8 126 111 / 8%);
+}
+
+.hero-decoration-card span {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: #a1d7c8;
+}
+
+.hero-decoration-card span:first-child {
+  width: 45%;
+  background: #087e6f;
+}
+
+.hero-decoration-card span:last-child {
+  width: 70%;
+}
+
+@media (max-width: 420px) {
+  .hero {
+    min-height: 290px;
+  }
+  .hero-description {
+    max-width: 20rem;
+  }
+  .hero-decoration {
+    right: -98px;
+    opacity: 0.52;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta {
+    transition: none;
+  }
 }
 
 .resources,
@@ -263,6 +405,10 @@ body {
 .guide-tab-panel:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+.guide-tab-container {
+  scroll-margin-top: calc(88px + env(safe-area-inset-top, 0px));
 }
 
 .guide-tab-panel[hidden] {
