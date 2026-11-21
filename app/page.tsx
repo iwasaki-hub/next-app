@@ -3,6 +3,7 @@ import Link from "next/link";
 import appIcon from "./icon.svg";
 import GuideTabs from "./guide-tabs";
 import LoginButton from "./login-button";
+import DeliveryFlow from "./delivery-flow";
 
 // Resource icons from Octicons, Simple Icons, and Feather.
 const githubIcon = (
@@ -197,6 +198,7 @@ export default function Home() {
             </ol>
           </section>
         }
+        delivery={<DeliveryFlow />}
       />
       </main>
     </>

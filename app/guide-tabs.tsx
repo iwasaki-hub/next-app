@@ -2,21 +2,40 @@
 
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 
-type TabId = "links" | "workflow";
+type TabId = "links" | "workflow" | "delivery";
 
 const tabs = [
   { id: "links", label: "便利なリンク", panelId: "guide-panel-links" },
   { id: "workflow", label: "開発の流れ", panelId: "guide-panel-workflow" },
+  { id: "delivery", label: "公開フロー", panelId: "guide-panel-delivery" },
 ] as const;
+
+const tabCopy: Record<TabId, { title: string; description: string }> = {
+  links: {
+    title: "必要なものは、ここに。",
+    description: "よく使う開発リソースをひとつにまとめました。",
+  },
+  workflow: {
+    title: "一歩ずつ、進めよう。",
+    description: "セットアップから実装まで、順番に確認できます。",
+  },
+  delivery: {
+    title: "コードが届くまで。",
+    description: "更新からCI、GitHub Actions、デプロイまでの道のり。",
+  },
+};
 
 export default function GuideTabs({
   links,
   workflow,
+  delivery,
 }: {
   links: ReactNode;
   workflow: ReactNode;
+  delivery: ReactNode;
 }) {
   const [activeTab, setActiveTab] = useState<TabId>("links");
+  const { title, description } = tabCopy[activeTab];
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   function handleTabKeyDown(
@@ -51,14 +70,8 @@ export default function GuideTabs({
     <div className="guide-tab-container" id="guide-content">
       <div className="guide-card-intro">
         <span className="guide-card-kicker">AT A GLANCE</span>
-        <h2 className="guide-card-title">
-          {activeTab === "links" ? "必要なものは、ここに。" : "一歩ずつ、進めよう。"}
-        </h2>
-        <p>
-          {activeTab === "links"
-            ? "よく使う開発リソースをひとつにまとめました。"
-            : "セットアップから実装まで、順番に確認できます。"}
-        </p>
+        <h2 className="guide-card-title">{title}</h2>
+        <p>{description}</p>
       </div>
       <div className="guide-tab-bar">
         <div
@@ -107,6 +120,16 @@ export default function GuideTabs({
         hidden={activeTab !== "workflow"}
       >
         {workflow}
+      </div>
+      <div
+        id="guide-panel-delivery"
+        className="guide-tab-panel"
+        role="tabpanel"
+        aria-labelledby="guide-tab-delivery"
+        tabIndex={0}
+        hidden={activeTab !== "delivery"}
+      >
+        {delivery}
       </div>
     </div>
   );
