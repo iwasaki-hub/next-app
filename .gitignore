@@ -19,3 +19,7 @@ yarn-error.log*
 
 # deployment metadata
 .vercel/
+
+# Playwright browser test output
+/playwright-report/
+/test-results/
