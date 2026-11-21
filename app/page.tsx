@@ -1,6 +1,7 @@
 import Image from "next/image";
 import appIcon from "./icon.svg";
 import GuideTabs from "./guide-tabs";
+import LoginButton from "./login-button";
 
 // Resource icons from Octicons, Simple Icons, and Feather.
 const githubIcon = (
@@ -109,13 +110,18 @@ const steps = [
 
 export default function Home() {
   return (
-    <main className="guide">
-      <header className="brand">
-        <Image src={appIcon} width={32} height={32} alt="" />
-        <span>next-app</span>
+    <>
+      <header className="site-header">
+        <nav className="site-header-inner" aria-label="サイトナビゲーション">
+          <a className="brand" href="/" aria-label="next-app ホーム">
+            <Image src={appIcon} width={32} height={32} alt="" />
+            <span>next-app</span>
+          </a>
+          <LoginButton />
+        </nav>
       </header>
-
-      <h1>開発ガイド</h1>
+      <main className="guide">
+        <h1>開発ガイド</h1>
       <p className="intro">開発に使うリンクをまとめました。</p>
       <GuideTabs
         links={
@@ -157,6 +163,7 @@ export default function Home() {
           </section>
         }
       />
-    </main>
+      </main>
+    </>
   );
 }
