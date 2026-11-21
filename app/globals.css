@@ -904,67 +904,16 @@ body {
 /* Login and signup share the warm palette and a translucent glass surface. */
 .auth-shell {
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh - 70px);
   overflow-x: clip;
   padding:
-    calc(20px + env(safe-area-inset-top, 0px))
+    20px
     clamp(18px, 4vw, 44px)
     calc(24px + env(safe-area-inset-bottom, 0px));
   background:
     radial-gradient(ellipse at 7% 20%, rgb(255 255 255 / 65%), transparent 40%),
     radial-gradient(ellipse at 88% 75%, rgb(255 195 120 / 65%), transparent 43%),
     linear-gradient(145deg, #ffe8d5 2%, #ffb98b 49%, #fff5e9 100%);
-}
-
-.auth-header {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  width: 100%;
-  max-width: 1060px;
-  margin: 0 auto;
-}
-
-.auth-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  color: #352820;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.25rem, 4.5vw, 1.75rem);
-  font-style: italic;
-  font-weight: 750;
-  letter-spacing: -0.045em;
-  text-decoration: none;
-}
-
-.auth-brand img {
-  flex-shrink: 0;
-  border-radius: 10px;
-}
-
-.auth-back {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  min-height: 44px;
-  padding: 9px 14px;
-  border: 1px solid rgb(255 255 255 / 75%);
-  border-radius: 999px;
-  background: rgb(255 255 255 / 53%);
-  color: #5a3525;
-  font-size: 0.875rem;
-  font-weight: 760;
-  text-decoration: none;
-}
-
-.auth-back:hover {
-  background: rgb(255 255 255 / 85%);
 }
 
 .auth-main {
@@ -1309,8 +1258,6 @@ body {
   text-align: center;
 }
 
-.auth-brand:focus-visible,
-.auth-back:focus-visible,
 .auth-field input:focus-visible,
 .auth-reveal:focus-visible,
 .auth-submit:focus-visible,
@@ -1351,11 +1298,6 @@ body {
 }
 
 @media (max-width: 375px) {
-  .auth-back {
-    padding-inline: 10px;
-    font-size: 0.8125rem;
-  }
-
   .auth-card {
     border-radius: 25px;
     padding: 23px 18px;
