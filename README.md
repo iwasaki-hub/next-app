@@ -20,7 +20,7 @@ Node.js **24 LTS** を推奨。`engines.node` は `24.x` に固定し、CIは `.
 ```bash
 git clone https://github.com/iwasaki-hub/next-app.git
 cd next-app
-npm install
+npm ci
 npm run dev
 ```
 
@@ -53,7 +53,7 @@ AGENTS.md               Codex用の最小ルール
 
 1. GitHub Actionsの`CI`と変更差分を確認。
 2. PRレビューを経て`main`へマージし、最新コードを取り込みます。
-3. **重要:** 初期PRでは npm レジストリに接続できなかったため、`package-lock.json` は未生成です。ネット接続のある環境で `npm install` を実行し、生成された `package-lock.json` を**次のPRにコミット**してください。以後CIは `npm ci` とキャッシュに切り替えると再現性が高まります。
+3. `package-lock.json` をリポジトリに保存しています。CIと初回セットアップは `npm ci` を利用し、`actions/setup-node` のnpmキャッシュを利用します。依存を追加・更新するときだけ `npm install` を実行し、`package.json` と `package-lock.json` を同じPRに含めます。
 4. 次の機能から `feature/*` で実装→型・Lint・ビルド→PRレビュー→CI→マージ。
 5. VercelはGitHubと接続済み。PRのPreviewを確認してからマージし、Productionを再検証します。警告対策は[DEPLOY_WARNINGS.md](docs/development/DEPLOY_WARNINGS.md)を参照してください。
 
