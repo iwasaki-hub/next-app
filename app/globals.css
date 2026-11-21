@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: #f7f8fc;
+  color: #14213b;
+  font-family: Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", Meiryo, sans-serif;
+}
+
+::selection {
+  background: #d9e8ff;
+  color: #0d3063;
+}
