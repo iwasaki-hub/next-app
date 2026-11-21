@@ -122,9 +122,43 @@ export default function Home() {
         </nav>
       </header>
       <main className="guide">
-        <h1>開発ガイド</h1>
-      <p className="intro">開発に使うリンクをまとめました。</p>
-      <GuideTabs
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-content">
+            <p className="hero-eyebrow">
+              <span className="hero-eyebrow-dot" aria-hidden="true" />
+              YOUR CREATIVE SPACE
+            </p>
+            <h1 id="hero-title">
+              つくる準備を、
+              <span>ここから。</span>
+            </h1>
+            <p className="hero-description">
+              新しいアイデアを、少しずつ形に。
+              必要なリンクも、次のステップもここから始まります。
+            </p>
+            <a className="hero-cta" href="#guide-content">
+              <span className="hero-cta-orb" aria-hidden="true" />
+              <span className="hero-cta-label">ガイドを見てみる</span>
+              <span className="hero-cta-action" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14m-7-7 7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          </div>
+          <div className="hero-glow hero-glow-one" aria-hidden="true" />
+          <div className="hero-glow hero-glow-two" aria-hidden="true" />
+        </section>
+        <GuideTabs
         links={
           <nav aria-label="開発に使うリンク">
             <ul className="resources">
