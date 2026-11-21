@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
 export default function SiteMenu({
   headerAction,
+  emailInitials,
 }: {
   headerAction: "login" | "signup" | "logout";
+  emailInitials: string;
 }) {
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
@@ -17,8 +19,16 @@ export default function SiteMenu({
   }[headerAction];
 
   function closeMenu() {
-    panel.current?.hidePopover();
+    const menu = panel.current;
+    if (menu?.matches(":popover-open")) {
+      menu.hidePopover();
+    }
   }
+
+  useEffect(() => {
+    window.addEventListener("scroll", closeMenu, { passive: true });
+    return () => window.removeEventListener("scroll", closeMenu);
+  }, []);
 
   return (
     <>
@@ -28,6 +38,11 @@ export default function SiteMenu({
         aria-label="メニュー"
         popoverTarget={menuId}
       >
+        {emailInitials && (
+          <span className="site-menu-icon-open site-menu-initials" aria-hidden="true">
+            {emailInitials}
+          </span>
+        )}
         <svg
           viewBox="0 0 24 24"
           fill="none"
@@ -36,7 +51,10 @@ export default function SiteMenu({
           strokeLinecap="round"
           aria-hidden="true"
         >
-          <path d="M4 6h16M4 12h16M4 18h16" />
+          {!emailInitials && (
+            <path className="site-menu-icon-open" d="M4 6h16M4 12h16M4 18h16" />
+          )}
+          <path className="site-menu-icon-close" d="m6 6 12 12M18 6 6 18" />
         </svg>
       </button>
       <div className="site-menu-panel" id={menuId} popover="auto" ref={panel}>

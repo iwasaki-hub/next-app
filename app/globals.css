@@ -127,9 +127,28 @@ body {
   background: #fff;
 }
 
+.site-menu-toggle svg,
+.site-menu-initials {
+  grid-area: 1 / 1;
+}
+
+.site-menu-initials {
+  font-size: 0.875rem;
+  font-weight: 760;
+}
+
 .site-menu-toggle svg {
   width: 20px;
   height: 20px;
+}
+
+.site-menu-icon-close,
+.site-menu-toggle:has(+ .site-menu-panel:popover-open) .site-menu-icon-open {
+  display: none;
+}
+
+.site-menu-toggle:has(+ .site-menu-panel:popover-open) .site-menu-icon-close {
+  display: inline;
 }
 
 .site-menu-panel {
