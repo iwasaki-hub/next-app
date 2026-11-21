@@ -16,7 +16,7 @@ function validateCredentials(formData: FormData) {
   if (
     typeof email !== "string" ||
     email.length > 254 ||
-    !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
     typeof password !== "string" ||
     password.length < 1 ||
     password.length > 128

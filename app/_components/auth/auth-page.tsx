@@ -1,10 +1,12 @@
 import Link from "next/link";
 import AuthForm from "./auth-form";
 import SiteHeader from "../site-header";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 type AuthMode = "login" | "signup";
 
-export default function AuthPage({ mode }: { mode: AuthMode }) {
+export default function AuthPage({ mode, notice }: { mode: AuthMode; notice?: string }) {
+  const configured = isSupabaseConfigured();
   const isSignup = mode === "signup";
 
   return (
@@ -67,10 +69,14 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
 
             <div className="auth-preview-notice" role="note">
               <span aria-hidden="true">✦</span>
-              <span>画面プレビュー：現在、認証・ユーザー登録は利用できません。</span>
+              <span>{configured
+                ? isSignup
+                  ? "登録後、メールで届く確認リンクを開いてください。"
+                  : "登録済みのメールアドレスでログインできます。"
+                : "画面プレビュー：現在、認証・ユーザー登録は利用できません。"}</span>
             </div>
-
-            <AuthForm mode={mode} />
+            {notice && <p className="auth-form-message" role="status">{notice}</p>}
+            <AuthForm mode={mode} configured={configured} />
 
             <div className="auth-switch">
               {isSignup ? "すでにアカウントをお持ちですか？" : "アカウントをお持ちでない方"}
