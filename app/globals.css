@@ -24,7 +24,111 @@ body {
   width: 100%;
   max-width: 39rem;
   margin-inline: auto;
-  padding: 24px clamp(20px, 6.4vw, 32px) 36px;
+  padding: 24px clamp(20px, 6.4vw, 32px)
+    calc(112px + env(safe-area-inset-bottom, 0px));
+}
+
+/* A single mobile-first top navigation bar; safe area stays above the content. */
+.site-header {
+  --accent: #087e6f;
+  --line: #cfd8d8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding-top: env(safe-area-inset-top, 0px);
+  border-bottom: 1px solid var(--line);
+  background: rgb(255 255 255 / 96%);
+  backdrop-filter: blur(14px);
+}
+
+.site-header-inner {
+  width: 100%;
+  max-width: 39rem;
+  min-height: 64px;
+  margin-inline: auto;
+  padding: 8px clamp(20px, 6.4vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand:focus-visible,
+.login-button:focus-visible,
+.login-notice-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.login-control {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.login-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 104px;
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: #06695e;
+}
+
+.login-button svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.login-notice {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: min(280px, calc(100vw - 40px));
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(23 33 38 / 15%);
+  color: #172126;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.login-notice[hidden] {
+  display: none;
+}
+
+.login-notice p {
+  margin: 0 0 12px;
+}
+
+.login-notice-close {
+  min-height: 40px;
+  padding: 7px 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f3fbf9;
+  color: #087e6f;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .brand {
@@ -106,10 +210,69 @@ body {
   font-size: 20px;
 }
 
+/* Bottom navigation stays visible while content scrolls, including on iPhone. */
+.guide-tab-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: 10px max(20px, env(safe-area-inset-left, 0px))
+    calc(10px + env(safe-area-inset-bottom, 0px))
+    max(20px, env(safe-area-inset-right, 0px));
+  border-top: 1px solid var(--line);
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 -3px 18px rgb(23 33 38 / 7%);
+}
+
+.guide-tab-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  max-width: 39rem;
+  margin-inline: auto;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #edf5f2;
+}
+
+.guide-tab {
+  min-height: 48px;
+  padding-inline: 10px;
+  border-radius: 11px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+  cursor: pointer;
+}
+
+.guide-tab:hover {
+  color: var(--accent);
+}
+
+.guide-tab[aria-selected="true"] {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgb(8 126 111 / 10%);
+}
+
+.guide-tab:focus-visible,
+.guide-tab-panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.guide-tab-panel[hidden] {
+  display: none;
+}
+
 .workflow {
-  margin-block-start: 24px;
-  border-block-start: 1px solid var(--line);
-  padding-block-start: 17px;
+  margin-block-start: 0;
+  border-block-start: none;
+  padding-block-start: 0;
 }
 
 .guide h2 {

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "next-appの開発に使うリンクと、環境のセットアップから機能実装までの手順をまとめました。",
 };
+
+// Let the fixed bottom navigation account for the iPhone home-indicator safe area.
+export const viewport: Viewport = { viewportFit: "cover" };
 
 export default function RootLayout({
   children,
