@@ -2,10 +2,11 @@
 
 import { useActionState, useState } from "react";
 import { updateUsernameAction } from "@/app/auth/actions";
+import type { AuthActionState } from "@/lib/auth-state";
 
 export default function UsernameForm({ initialUsername }: { initialUsername: string }) {
   const [username, setUsername] = useState(initialUsername);
-  const [state, formAction, pending] = useActionState(updateUsernameAction, {
+  const [state, formAction, pending] = useActionState<AuthActionState, FormData>(updateUsernameAction, {
     status: "idle",
     message: "",
   });
