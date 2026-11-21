@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import SiteHeader from "../_components/site-header";
+import UsernameForm from "./username-form";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
@@ -20,6 +21,8 @@ export default async function AccountPage() {
     redirect("/login");
   }
 
+  const username = user.user_metadata.username;
+
   return (
     <>
       <SiteHeader />
@@ -30,6 +33,7 @@ export default async function AccountPage() {
           <p>アカウントのメールアドレス</p>
           <p className="account-email">{user.email ?? "登録メールアドレスなし"}</p>
           <p>ログイン状態はSupabase Authで管理されています。</p>
+          <UsernameForm key={user.id} initialUsername={typeof username === "string" ? username : ""} />
           <Link className="account-home" href="/">ホームへ戻る</Link>
         </section>
       </main>

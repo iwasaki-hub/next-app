@@ -103,3 +103,32 @@ export async function logoutAction() {
   revalidatePath("/", "layout");
   redirect("/login?logged_out=1");
 }
+
+export async function updateUsernameAction(
+  _previous: AuthActionState,
+  formData: FormData,
+): Promise<AuthActionState> {
+  if (!isSupabaseConfigured()) {
+    return { status: "error", message: "現在はユーザー名を保存できません。" };
+  }
+
+  const value = formData.get("username");
+  const username = typeof value === "string" ? value.trim() : "";
+  if (!username || username.length > 40 || /[\r\n]/.test(username)) {
+    return { status: "error", message: "ユーザー名を1〜40文字で入力してください。" };
+  }
+
+  const supabase = await createClient();
+  const { data: { user }, error: sessionError } = await supabase.auth.getUser();
+  if (sessionError || !user) {
+    return { status: "error", message: "ユーザー名を保存するには、ログインし直してください。" };
+  }
+
+  const { error } = await supabase.auth.updateUser({ data: { username } });
+  if (error) {
+    return { status: "error", message: "ユーザー名を保存できませんでした。もう一度お試しください。" };
+  }
+
+  revalidatePath("/account");
+  return { status: "success", message: "ユーザー名を保存しました。" };
+}
