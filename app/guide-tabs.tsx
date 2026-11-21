@@ -49,26 +49,32 @@ export default function GuideTabs({
 
   return (
     <div className="guide-tab-container">
-      <div className="guide-tab-list" role="tablist" aria-label="開発ガイドの表示切り替え">
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.id}
-            ref={(element) => {
-              tabRefs.current[index] = element;
-            }}
-            id={`guide-tab-${tab.id}`}
-            className="guide-tab"
-            type="button"
-            role="tab"
-            aria-controls={tab.panelId}
-            aria-selected={activeTab === tab.id}
-            tabIndex={activeTab === tab.id ? 0 : -1}
-            onClick={() => setActiveTab(tab.id)}
-            onKeyDown={(event) => handleTabKeyDown(event, index)}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="guide-tab-bar">
+        <div
+          className="guide-tab-list"
+          role="tablist"
+          aria-label="開発ガイドの表示切り替え"
+        >
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              ref={(element) => {
+                tabRefs.current[index] = element;
+              }}
+              id={`guide-tab-${tab.id}`}
+              className="guide-tab"
+              type="button"
+              role="tab"
+              aria-controls={tab.panelId}
+              aria-selected={activeTab === tab.id}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              onClick={() => setActiveTab(tab.id)}
+              onKeyDown={(event) => handleTabKeyDown(event, index)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div
