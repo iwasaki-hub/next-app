@@ -1,68 +1,62 @@
 # Supabase Auth 接続手順（next-app専用）
 
-## 現在の状態
+## 現在の接続状況（2026-11-21）
 
-- このPRでは **Next.js側の認証処理を実装**しますが、接続先Supabaseプロジェクトと環境変数が設定されるまでアカウント登録・ログインは有効になりません。
-- 既存のLittleDiary・typing-appと認証データを共有しないでください。
-- **この変更はDBテーブルの作成やマイグレーションを行いません。** ユーザー管理はSupabase Authの管理する\`auth.users\`を使用します。
-- アプリ独自のデータを追加する場合、公開スキーマの全テーブルにRLSと所有者ベースのポリシーを設計してください。
+- Supabase専用プロジェクト **`next-app`** は作成済み。Project ref: `uvtyjurscpegfktbrhnk`、東京リージョン、`ACTIVE_HEALTHY`。
+- Project URL: `https://uvtyjurscpegfktbrhnk.supabase.co`。有効なpublishable keyが存在することを確認済み。
+- **PR #13は未マージ**。Vercel Preview環境変数への登録は権限不足（403）で失敗したため、まだ接続されていません。Productionは変更していません。
+- LittleDiary・typing-appの既存プロジェクト、テーブル・RLS・ユーザーは変更していません。
+- このPRのコードは設定不足の環境でUIデモを維持し、実際のパスワードを送信しません。
 
-## 1. Supabaseプロジェクトの用意
+## 1. Vercel Preview限定の環境変数を設定
 
-1. 所属するSupabase組織、料金（Free枠・追加請求の有無）を確認した上で、\`next-app\`専用プロジェクトを作ります。
-2. リージョンは日本のユーザーを主に想定するならTokyo (\`ap-northeast-1\`)が候補です。
-3. Project URLと\`sb_publishable_...\`形式のpublishable keyを取得します。**secretキーやservice_roleキーをNEXT_PUBLIC変数に入れてはいけません。**
-4. 認証プロバイダー「Email」を有効にし、メールアドレス確認を有効にしてください。初期設定の確認メール送信制限・SMTP設定も確認してください。
+Vercelの**next-appプロジェクト → Settings → Environment Variables**で、必ず**Environment = Preview**、**Specific Git Branch = `feature/supabase-auth-foundation`**を指定してください。Productionや全Previewブランチには広げないでください。
 
-## 2. Next.jsの環境変数
+| Key | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://uvtyjurscpegfktbrhnk.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase Dashboard → Project Settings / API Keys の有効な **publishable (`sb_publishable_...`)** キー（このドキュメントには貼り付けない） |
+| `NEXT_PUBLIC_SITE_URL` | `https://next-app-git-feature-supabase-au-0f62ac-masas-projects-39337881.vercel.app` |
 
-ローカルで \`.env.example\` を参考に\`.env.local\`へ以下を設定（実際の値をGitにコミットしない）：
+このURLはPR #13の**固定のPreviewブランチエイリアス**です。デプロイごとに変わる一時URLではなく、このURLをメール認証の戻り先にします。環境変数を設定した後、**同じfeatureブランチのPreviewを再ビルド**してください。既存デプロイは環境変数変更を自動では反映しません。
 
-\`\`\`dotenv
-NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_YOUR_KEY
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-\`\`\`
+秘密鍵・service_roleキー・DBパスワードを `NEXT_PUBLIC_` に置かないでください。公開鍵はブラウザに送信される設計です。`.env.local`はコミットせず、ローカルでは`.env.example`を参照してください。
 
-Vercelでは、Preview / Productionで使用するそれぞれのURLに合わせて3つの値を設定し、**環境変数を更新したら再ビルド**してください。\`NEXT_PUBLIC_\`の設定値はブラウザに公開されます。公開鍵以外の認証情報を置かないでください。
+## 2. Supabase Authのメール設定
 
-認証のURL設定：
+Supabase Dashboard → `next-app` → **Authentication → Providers → Email**で、メールアドレスとパスワードによる登録、**メール確認（Confirm email）**を有効にします。初期SMTP・メール送信回数制限にも注意してください。
 
-- **Authentication → URL Configuration → Site URL**：本番サイト \`https://next-app-dun-six-88.vercel.app\`
-- **Redirect URLs**：\`http://localhost:3000/auth/callback\`、\`https://next-app-dun-six-88.vercel.app/auth/callback\`、必要なPreviewの\`/auth/callback\`のみ追加
-- ワイルドカードで広範囲のリダイレクト先を許可することは本番では避けてください。
-- SupabaseのDefaultメール確認テンプレートでは\`ConfirmationURL\`経由のPKCEコードを\`/auth/callback\`で交換します。独自の\`TokenHash\`方式を使うときだけ\`{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email\`のテンプレートを設定してください。
-- \`NEXT_PUBLIC_SITE_URL\`はアプリのオリジン（\`/auth/callback\`を含めない）です。Server Actionのsignupが使用するURLがRedirect URLsに登録されている必要があります。
+次に **Authentication → URL Configuration** に以下を登録します。
 
-## 3. 実装範囲
+- **Site URL**: `https://next-app-git-feature-supabase-au-0f62ac-masas-projects-39337881.vercel.app`（Preview検証中の設定）
+- **Redirect URLs**: `https://next-app-git-feature-supabase-au-0f62ac-masas-projects-39337881.vercel.app/auth/callback`
+- TokenHash形式の確認リンクを使う場合、`https://next-app-git-feature-supabase-au-0f62ac-masas-projects-39337881.vercel.app/auth/confirm`も許可しておく
+- ローカル開発時のみ `http://localhost:3000/auth/callback` と `http://localhost:3000/auth/confirm` を追加する
 
-- \`lib/supabase/server.ts\`：Cookieストアを使うSupabaseサーバークライアント
-- \`proxy.ts\` / \`lib/supabase/proxy.ts\`：Next.js 16のセッション更新
-- \`app/auth/actions.ts\`：ログイン・登録・ログアウト用Server Actions
-- \`app/auth/callback/route.ts\`：PKCE確認リンク
-- \`app/auth/confirm/route.ts\`：TokenHash形式のメールリンク
-- \`/login\` / \`/signup\`：既存のガラス調フォームを再利用
-- \`/account\`：認証済みのみ閲覧可能なマイページ。サーバー側\`getUser()\`で検証
+**メール確認テンプレート：** 同一ブラウザのPKCE確認リンクなら標準の`{{ .ConfirmationURL }}`と`/auth/callback`を利用できます。メールを別のブラウザ・端末で開く可能性を考慮する場合は、**Authentication → Email Templates → Confirm sign up**を次のTokenHashリンク方式に変更できます。
 
-未設定環境ではフォーム送信をブラウザ内で止め、既存のデモ表示・検証を維持します。
+```html
+<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">メールアドレスを確認</a>
+```
 
-## 4. 必須確認（実環境で実施）
+このアプリには`/auth/confirm`（`verifyOtp`）と`/auth/callback`（`exchangeCodeForSession`）の両方を実装済みです。テンプレートの設定内容と実際の戻り先を必ず確認してください。
 
-1. 専用テストメールアドレスで新規登録し、確認メールを受信する。
-2. 確認リンクを開き、\`/account\`へ遷移し、正しいメールアドレスが表示される。
-3. ログアウトでセッションが終了し、\`/account\`を再訪すると\`/login\`に戻る。
-4. 正しいパスワードで再ログインでき、誤パスワードでログインできない。
-5. ログインしていない別ブラウザやプライベートウィンドウから\`/account\`を閲覧できない。
-6. URLや鍵の設定がないPreviewでは資格情報を送信できない。
-7. iPhone Safariでもメールリンクとセッション継続を確認する。
+## 3. 接続確認（未実施）
 
-Playwright CIは専用プロジェクトのテスト用認証情報を持たないため、デモ表示と未認証時のガードのみを確認します。**CI成功は実際のメール送受信やSupabase Authの統合成功を意味しません。**
+1. Vercel Previewを再デプロイし、`/login`と`/signup`で**デモ表示が消えたこと**を確認する。
+2. 自分で受信できるテスト用メールアドレスを使ってサインアップし、届いた確認メールを開く。
+3. `/account`で登録メールアドレスを確認し、ログアウト後の再アクセスが`/login`へ戻ることを確かめる。
+4. 正しい・誤ったパスワードでそれぞれログイン動作を確認し、別ブラウザでの未認証アクセスも検証する。
+5. iPhone Safariで登録・メール確認・再ログインを確認する。
 
-## 後続タスク
+GitHub Actionsの既存Playwrightテストは未設定状態のデモ動作と未認証時ガードを検証するもので、**実Supabaseとの連携やメール受信の成功を証明しません**。
 
-- パスワード再設定画面・メール送信処理（このPRでは未実装）
-- 必要に応じて認証制限・CAPTCHA・専用SMTP・レート制限
-- ユーザープロフィールや業務データ用のRLS付きテーブル（必要になってから追加）
+## 4. 本番反映は別の承認後
 
+Previewで認証を検証してからPRをマージします。その後、SupabaseのSite URL・Redirect URLsとVercel **Production**の環境変数を本番用URLへ切り替えて公開します。現時点ではProduction環境変数を設定しないでください。
+
+独自アプリデータテーブルは未導入です。今後作る公開スキーマのテーブルには所有者を検証するRLSを適用します。パスワード再設定・追加の不正利用防止策・SMTP整備は別PRで扱います。
+
+参考： https://supabase.com/docs/guides/auth/redirect-urls
 参考： https://supabase.com/docs/guides/auth/server-side/creating-a-client
 参考： https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs
