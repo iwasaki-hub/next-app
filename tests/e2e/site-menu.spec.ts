@@ -86,3 +86,21 @@ for (const route of ["/admin", "/login", "/signup"]) {
     await expect(toggle.locator(".site-menu-icon-open")).toBeVisible();
   });
 }
+
+for (const [route, label] of [
+  ["/", "ホーム"],
+  ["/admin", "管理ページ"],
+  ["/login", "ログイン"],
+  ["/signup", "新規登録"],
+]) {
+  test(`menu highlights only the current page at ${route}`, async ({ page }) => {
+    await page.goto(route);
+    await page.getByRole("button", { name: "メニュー" }).click();
+
+    const current = page.locator('.site-menu-panel a[aria-current="page"]');
+    await expect(current).toHaveCount(1);
+    await expect(current).toHaveText(label);
+    await expect(current).toHaveAttribute("href", route);
+    await expect(current.locator("span")).toHaveCSS("background-image", /linear-gradient/);
+  });
+}
