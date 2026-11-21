@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef } from "react";
 
 export default function SiteMenu({
@@ -10,13 +11,24 @@ export default function SiteMenu({
   headerAction: "login" | "signup" | "logout";
   emailInitials: string;
 }) {
+  const pathname = usePathname();
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
-  const accountLink = {
-    login: { href: "/signup", label: "新規登録" },
-    signup: { href: "/login", label: "ログイン" },
-    logout: { href: "/account", label: "アカウント" },
-  }[headerAction];
+  const links = [
+    { href: "/", label: "ホーム" },
+    { href: "/#guide-content", label: "開発ガイド" },
+    { href: "/admin", label: "管理ページ", prefetch: false },
+  ];
+
+  if (headerAction === "logout") {
+    links.push({ href: "/account", label: "アカウント" });
+  }
+  if (pathname === "/login" || headerAction === "signup") {
+    links.push({ href: "/login", label: "ログイン" });
+  }
+  if (pathname === "/signup" || headerAction === "login") {
+    links.push({ href: "/signup", label: "新規登録" });
+  }
 
   function closeMenu() {
     const menu = panel.current;
@@ -59,10 +71,18 @@ export default function SiteMenu({
       </button>
       <div className="site-menu-panel" id={menuId} popover="auto" ref={panel}>
         <ul>
-          <li><Link href="/" onClick={closeMenu}>ホーム</Link></li>
-          <li><Link href="/#guide-content" onClick={closeMenu}>開発ガイド</Link></li>
-          <li><Link href="/admin" prefetch={false} onClick={closeMenu}>管理ページ</Link></li>
-          <li><Link href={accountLink.href} onClick={closeMenu}>{accountLink.label}</Link></li>
+          {links.map(({ href, label, prefetch }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                prefetch={prefetch}
+                aria-current={pathname === href ? "page" : undefined}
+                onClick={closeMenu}
+              >
+                <span>{label}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </>
