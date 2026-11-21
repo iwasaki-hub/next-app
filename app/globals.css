@@ -455,16 +455,53 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
+  isolation: isolate;
   width: 100%;
   max-width: 39rem;
   margin-inline: auto;
   padding: 5px;
   border: 1px solid #f2ddcd;
   border-radius: 18px;
-  background: #ffebde;
+  background: linear-gradient(115deg, #ffe2ce 0%, #fff2e7 52%, #ffe6d5 100%);
+}
+
+/* A translucent glass pill slides across the existing three equal-width grid tracks. */
+.guide-tab-list::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  border: 1px solid rgb(255 255 255 / 78%);
+  border-radius: 13px;
+  /* Specular highlights, translucent fill and warm shadow create a glass-like surface. */
+  background: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 70%) 0%,
+    rgb(255 255 255 / 28%) 48%,
+    rgb(255 255 255 / 12%) 58%,
+    rgb(255 255 255 / 43%) 100%
+  );
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 90%),
+    inset 0 -1px 0 rgb(255 255 255 / 20%),
+    0 5px 14px rgb(141 66 35 / 13%);
+  pointer-events: none;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.guide-tab-list[data-active-tab="workflow"]::before {
+  transform: translateX(calc(100% + 6px));
+}
+
+.guide-tab-list[data-active-tab="delivery"]::before {
+  transform: translateX(calc(200% + 12px));
 }
 
 .guide-tab {
+  position: relative;
+  z-index: 1;
+  grid-row: 1;
   min-height: 3.5rem;
   padding: 0.5rem 0.25rem;
   border-radius: 13px;
@@ -478,13 +515,23 @@ body {
   cursor: pointer;
 }
 
+.guide-tab:nth-of-type(1) {
+  grid-column: 1;
+}
+
+.guide-tab:nth-of-type(2) {
+  grid-column: 2;
+}
+
+.guide-tab:nth-of-type(3) {
+  grid-column: 3;
+}
+
 .guide-tab:hover {
   color: #8b3f1e;
 }
 
 .guide-tab[aria-selected="true"] {
-  background: #fffdfa;
-  box-shadow: 0 3px 11px rgb(145 71 29 / 12%);
   color: #9b431c;
 }
 
@@ -846,7 +893,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-cta {
+  .hero-cta,
+  .guide-tab-list::before {
     transition: none;
   }
 }

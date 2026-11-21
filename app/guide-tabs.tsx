@@ -76,6 +76,7 @@ export default function GuideTabs({
       <div className="guide-tab-bar">
         <div
           className="guide-tab-list"
+          data-active-tab={activeTab}
           role="tablist"
           aria-label="開発ガイドの表示切り替え"
         >
