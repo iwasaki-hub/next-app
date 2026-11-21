@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useRef } from "react";
 
 export default function SiteMenu({
   headerAction,
 }: {
   headerAction: "login" | "signup" | "logout";
 }) {
+  const pathname = usePathname();
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const accountLink = {
@@ -17,8 +19,18 @@ export default function SiteMenu({
   }[headerAction];
 
   function closeMenu() {
-    panel.current?.hidePopover();
+    const menu = panel.current;
+    if (menu?.matches(":popover-open")) {
+      menu.hidePopover();
+    }
   }
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    window.addEventListener("scroll", closeMenu, { passive: true });
+    return () => window.removeEventListener("scroll", closeMenu);
+  }, [pathname]);
 
   return (
     <>
@@ -36,7 +48,8 @@ export default function SiteMenu({
           strokeLinecap="round"
           aria-hidden="true"
         >
-          <path d="M4 6h16M4 12h16M4 18h16" />
+          <path className="site-menu-icon-open" d="M4 6h16M4 12h16M4 18h16" />
+          <path className="site-menu-icon-close" d="m6 6 12 12M18 6 6 18" />
         </svg>
       </button>
       <div className="site-menu-panel" id={menuId} popover="auto" ref={panel}>
