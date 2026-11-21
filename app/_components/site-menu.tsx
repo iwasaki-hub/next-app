@@ -1,5 +1,6 @@
 "use client";
 
+import { BookOpen, CircleUserRound, House, LogIn, Shield, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef } from "react";
@@ -15,19 +16,19 @@ export default function SiteMenu({
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const links = [
-    { href: "/", label: "ホーム" },
-    { href: "/#guide-content", label: "開発ガイド" },
-    { href: "/admin", label: "管理ページ", prefetch: false },
+    { href: "/", label: "ホーム", icon: House },
+    { href: "/#guide-content", label: "開発ガイド", icon: BookOpen },
+    { href: "/admin", label: "管理ページ", icon: Shield, prefetch: false },
   ];
 
   if (headerAction === "logout") {
-    links.push({ href: "/account", label: "アカウント" });
+    links.push({ href: "/account", label: "アカウント", icon: CircleUserRound });
   }
   if (pathname === "/login" || headerAction === "signup") {
-    links.push({ href: "/login", label: "ログイン" });
+    links.push({ href: "/login", label: "ログイン", icon: LogIn });
   }
   if (pathname === "/signup" || headerAction === "login") {
-    links.push({ href: "/signup", label: "新規登録" });
+    links.push({ href: "/signup", label: "新規登録", icon: UserPlus });
   }
 
   function closeMenu() {
@@ -71,7 +72,7 @@ export default function SiteMenu({
       </button>
       <div className="site-menu-panel" id={menuId} popover="auto" ref={panel}>
         <ul>
-          {links.map(({ href, label, prefetch }) => (
+          {links.map(({ href, label, icon: Icon, prefetch }) => (
             <li key={href}>
               <Link
                 href={href}
@@ -79,6 +80,7 @@ export default function SiteMenu({
                 aria-current={pathname === href ? "page" : undefined}
                 onClick={closeMenu}
               >
+                <Icon className="site-menu-link-icon" size={18} aria-hidden="true" />
                 <span>{label}</span>
               </Link>
             </li>

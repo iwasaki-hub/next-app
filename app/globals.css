@@ -178,6 +178,7 @@ body {
 .site-menu-panel a {
   display: flex;
   align-items: center;
+  gap: 16px;
   min-height: 44px;
   padding-inline: 12px;
   border-radius: 12px;
@@ -189,6 +190,11 @@ body {
 .site-menu-panel a:hover,
 .site-menu-panel a:focus-visible {
   background: #ffe6d3;
+}
+
+.site-menu-link-icon {
+  flex-shrink: 0;
+  color: #81513a;
 }
 
 .site-menu-panel a > span {
