@@ -1,166 +1,156 @@
-const setupSteps = [
-  {
-    number: "01",
-    title: "開発環境を起動",
-    description: "npm install → npm run dev で、ローカルの画面を確認します。",
-  },
-  {
-    number: "02",
-    title: "開発ルールを整える",
-    description: "AGENTS.md と Codex Tips を使い、作業を小さなPRに分けます。",
-  },
-  {
-    number: "03",
-    title: "最初の機能をつくる",
-    description: "仕様と完成条件を決め、画面・データ・テストを少しずつ追加します。",
-  },
-] as const;
+import Image from "next/image";
+import appIcon from "./icon.svg";
+
+// Resource icons from Octicons, Simple Icons, and Feather.
+const githubIcon = (
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    fill="currentColor"
+  >
+    <path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656" />
+  </svg>
+);
+const nextIcon = (
+  <svg
+    stroke="currentColor"
+    fill="currentColor"
+    strokeWidth="0"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    height="1em"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z" />
+  </svg>
+);
+const codeIcon = (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    height="1em"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
+  </svg>
+);
+const externalArrow = (
+  <svg
+    stroke="currentColor"
+    fill="none"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="resource-arrow"
+    aria-hidden="true"
+    height="1em"
+    width="1em"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line x1="7" y1="17" x2="17" y2="7" />
+    <polyline points="7 7 17 7 17 17" />
+  </svg>
+);
 
 const resources = [
   {
-    label: "Next.js 公式ドキュメント",
-    href: "https://nextjs.org/docs/app",
+    title: "GitHubリポジトリ",
+    url: "https://github.com/iwasaki-hub/next-app",
+    icon: githubIcon,
   },
   {
-    label: "Codex Tips",
-    href: "https://github.com/iwasaki-hub/codex-tips",
+    title: "Next.js公式ドキュメント",
+    url: "https://nextjs.org/docs/app",
+    icon: nextIcon,
   },
   {
-    label: "GitHub リポジトリ",
-    href: "https://github.com/iwasaki-hub/next-app",
+    title: "Codex Tips",
+    url: "https://github.com/iwasaki-hub/codex-tips",
+    icon: codeIcon,
   },
-] as const;
+];
+
+const steps = [
+  {
+    title: "開発環境のセットアップ",
+    description: (
+      <>
+        Node.js 24 LTS を用意し、リポジトリ内で <code>npm ci</code>、
+        <code>npm run dev</code> の順に実行します。
+      </>
+    ),
+  },
+  {
+    title: "開発ルールの確認",
+    description: (
+      <>AGENTS.md や Codex Tips で、開発ルールと作業の進め方を確認します。</>
+    ),
+  },
+  {
+    title: "最初の機能の実装",
+    description: (
+      <>小さな機能から実装し、動作確認とPRレビューを経てマージします。</>
+    ),
+  },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-5 py-8 sm:px-8 sm:py-12">
-      <div className="mx-auto max-w-5xl">
-        <header className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="flex size-10 items-center justify-center rounded-xl bg-slate-900 text-lg font-black text-white"
-            >
-              N
-            </span>
-            <div>
-              <p className="text-sm font-bold tracking-tight text-slate-900">
-                next-app
-              </p>
-              <p className="text-xs text-slate-500">Development starter</p>
-            </div>
-          </div>
-          <a
-            href="https://github.com/iwasaki-hub/next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            GitHubを開く ↗
-          </a>
-        </header>
+    <main className="guide">
+      <header className="brand">
+        <Image src={appIcon} width={32} height={32} alt="" />
+        <span>next-app</span>
+      </header>
 
-        <section className="relative mt-10 overflow-hidden rounded-3xl bg-slate-950 px-7 py-12 text-white shadow-xl shadow-slate-200 sm:mt-14 sm:px-12 sm:py-16">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-16 -top-20 size-80 rounded-full bg-blue-500/25 blur-3xl"
-          />
-          <div className="relative max-w-2xl">
-            <p className="mb-6 inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-widest text-sky-200">
-              NEXT.JS × TYPESCRIPT × CODEX
-            </p>
-            <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-5xl sm:leading-tight">
-              ここから、
-              <span className="block text-sky-300">新しいWebアプリを。</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-slate-300 sm:text-base">
-              プロジェクトの土台ができました。小さく作って、確かめて、
-              ひとつずつ育てていくためのスタートページです。
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+      <h1>開発ガイド</h1>
+      <p className="intro">開発に使うリンクをまとめました。</p>
+      <nav aria-label="開発に使うリンク">
+        <ul className="resources">
+          {resources.map(({ title, url, icon }) => (
+            <li key={url}>
               <a
-                href="https://nextjs.org/docs/app"
+                className="resource"
+                href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
               >
-                Next.jsを学ぶ ↗
+                <span className="resource-icon">{icon}</span>
+                <span>{title}</span>
+                {externalArrow}
               </a>
-              <a
-                href="https://github.com/iwasaki-hub/codex-tips"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl border border-white/30 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
-              >
-                Codex Tipsを見る ↗
-              </a>
-            </div>
-          </div>
-        </section>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-        <section aria-labelledby="next-steps-title" className="mt-14">
-          <div className="mb-6">
-            <p className="text-xs font-bold tracking-widest text-blue-700">
-              GET STARTED
-            </p>
-            <h2
-              id="next-steps-title"
-              className="mt-2 text-2xl font-bold tracking-tight text-slate-900"
-            >
-              次に進める3つのステップ
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-500">
-              はじめに開発基盤を確かめてから、機能開発を始めましょう。
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {setupSteps.map((step) => (
-              <article
-                key={step.number}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-              >
-                <span className="text-sm font-bold text-blue-600">
-                  {step.number}
-                </span>
-                <h3 className="mt-4 text-lg font-bold text-slate-900">
-                  {step.title}
-                </h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  {step.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section
-          aria-labelledby="resources-title"
-          className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8"
-        >
-          <h2 id="resources-title" className="text-lg font-bold text-slate-900">
-            開発に役立つリンク
-          </h2>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {resources.map((resource) => (
-              <a
-                key={resource.href}
-                href={resource.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700 transition hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-              >
-                {resource.label}
-                <span aria-hidden="true">↗</span>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <footer className="py-10 text-center text-xs text-slate-500">
-          Built with Next.js · TypeScript · Tailwind CSS
-        </footer>
-      </div>
+      <section className="workflow" aria-labelledby="workflow-title">
+        <h2 id="workflow-title">開発の流れ</h2>
+        <ol className="steps" role="list">
+          {steps.map(({ title, description }, index) => (
+            <li key={title}>
+              <span className="step-number" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
     </main>
   );
 }

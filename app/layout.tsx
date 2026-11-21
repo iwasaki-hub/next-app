@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Next App | 開発スタート",
-  description: "Next.jsとTypeScriptで、ここからWebアプリを育てていきます。",
+  title: "Next App | 開発ガイド",
+  description:
+    "next-appの開発に使うリンクと、環境のセットアップから機能実装までの手順をまとめました。",
 };
 
 export default function RootLayout({
