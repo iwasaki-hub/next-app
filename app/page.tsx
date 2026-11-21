@@ -1,5 +1,6 @@
 import Image from "next/image";
 import appIcon from "./icon.svg";
+import GuideTabs from "./guide-tabs";
 
 // Resource icons from Octicons, Simple Icons, and Feather.
 const githubIcon = (
@@ -116,41 +117,46 @@ export default function Home() {
 
       <h1>開発ガイド</h1>
       <p className="intro">開発に使うリンクをまとめました。</p>
-      <nav aria-label="開発に使うリンク">
-        <ul className="resources">
-          {resources.map(({ title, url, icon }) => (
-            <li key={url}>
-              <a
-                className="resource"
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="resource-icon">{icon}</span>
-                <span>{title}</span>
-                {externalArrow}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <section className="workflow" aria-labelledby="workflow-title">
-        <h2 id="workflow-title">開発の流れ</h2>
-        <ol className="steps" role="list">
-          {steps.map(({ title, description }, index) => (
-            <li key={title}>
-              <span className="step-number" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <GuideTabs
+        links={
+        <nav aria-label="開発に使うリンク">
+          <ul className="resources">
+            {resources.map(({ title, url, icon }) => (
+              <li key={url}>
+                <a
+                  className="resource"
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="resource-icon">{icon}</span>
+                  <span>{title}</span>
+                  {externalArrow}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        }
+        workflow={
+        <section className="workflow" aria-labelledby="workflow-title">
+          <h2 id="workflow-title">開発の流れ</h2>
+          <ol className="steps" role="list">
+            {steps.map(({ title, description }, index) => (
+              <li key={title}>
+                <span className="step-number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+        }
+      />
     </main>
   );
 }
