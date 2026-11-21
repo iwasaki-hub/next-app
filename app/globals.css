@@ -93,12 +93,90 @@ body {
 
 .brand:focus-visible,
 .login-button:focus-visible,
+.site-menu-toggle:focus-visible,
+.site-menu-panel a:focus-visible,
 .login-notice-close:focus-visible,
 .resource:focus-visible,
 .guide-tab:focus-visible,
 .guide-tab-panel:focus-visible {
   outline: 3px solid #84411d;
   outline-offset: 3px;
+}
+
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.site-menu-toggle {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 72%);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 6px 20px rgb(132 63 27 / 11%);
+  color: #352820;
+  cursor: pointer;
+}
+
+.site-menu-toggle:hover {
+  background: #fff;
+}
+
+.site-menu-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.site-menu-panel {
+  position: fixed;
+  inset: calc(70px + env(safe-area-inset-top, 0px) + 8px)
+    max(clamp(18px, 5vw, 30px), calc((100vw - 39rem) / 2 + 30px)) auto auto;
+  width: min(14rem, calc(100vw - 36px));
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--warm-line);
+  border-radius: 18px;
+  background: #fff8f1;
+  box-shadow: 0 12px 30px rgb(132 63 27 / 19%);
+  color: #352820;
+}
+
+.site-menu-panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-menu-panel a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 12px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-menu-panel a:hover,
+.site-menu-panel a:focus-visible {
+  background: #ffe6d3;
+}
+
+@media (max-width: 360px) {
+  .site-header-inner {
+    gap: 8px;
+  }
+
+  .site-header-actions .login-button {
+    min-width: 0;
+    padding-inline: 10px;
+  }
 }
 
 .login-control {
