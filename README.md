@@ -36,6 +36,23 @@ http://localhost:3000 を開いてください。機能開発は`main`からfeat
 | `npm run build` | 本番向けビルド |
 | `npm run start` | ビルド後のローカル本番起動 |
 
+### UI操作の自動テスト（Playwright）
+
+実際のChromiumブラウザで、下部3タブ、キーボード操作、ログイン案内の開閉、ヒーローからガイドへの移動、モバイル幅の横はみ出しを検証します。UIの見た目やiPhone Safari実機操作を全面的に保証するものではありません。
+
+ローカルで初めて実行するとき:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run build
+npm run test:e2e
+```
+
+テストは `playwright.config.ts` の設定で `npm run start` を自動起動し、`tests/e2e/guide.spec.ts` の操作を検証します。既にポート3000で開発サーバーを実行している場合は、そのサーバーを使用するため、最新の本番ビルドで検証するには他のサーバーを停止してください。
+
+GitHub ActionsのCIは `npm ci`、Lint、型チェック、Buildに続いてChromiumをインストールし、`npm run test:e2e` を実行します。CI成功とiPhone実機確認は別の検証です。
+
 ## ディレクトリ
 
 ```text
