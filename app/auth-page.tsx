@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
-import appIcon from "./icon.svg";
 import AuthForm from "./auth-form";
+import SiteHeader from "./site-header";
 
 type AuthMode = "login" | "signup";
 
@@ -9,18 +8,10 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
   const isSignup = mode === "signup";
 
   return (
-    <div className="auth-shell">
-      <header className="auth-header">
-        <Link className="auth-brand" href="/" aria-label="next-app ホーム">
-          <Image src={appIcon} width={35} height={35} alt="" />
-          <span>next-app</span>
-        </Link>
-        <Link className="auth-back" href="/">
-          <span aria-hidden="true">←</span> ホームへ戻る
-        </Link>
-      </header>
-
-      <main className="auth-main">
+    <>
+      <SiteHeader action={isSignup ? "login" : "signup"} />
+      <div className="auth-shell">
+        <main className="auth-main">
         <div className="auth-orb auth-orb-one" aria-hidden="true" />
         <div className="auth-orb auth-orb-two" aria-hidden="true" />
 
@@ -89,7 +80,8 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
           </div>
         </section>
       </main>
-      <footer className="auth-footer">Little steps, big ideas.</footer>
-    </div>
+        <footer className="auth-footer">Little steps, big ideas.</footer>
+      </div>
+    </>
   );
 }
