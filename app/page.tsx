@@ -119,42 +119,42 @@ export default function Home() {
       <p className="intro">開発に使うリンクをまとめました。</p>
       <GuideTabs
         links={
-        <nav aria-label="開発に使うリンク">
-          <ul className="resources">
-            {resources.map(({ title, url, icon }) => (
-              <li key={url}>
-                <a
-                  className="resource"
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="resource-icon">{icon}</span>
-                  <span>{title}</span>
-                  {externalArrow}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+          <nav aria-label="開発に使うリンク">
+            <ul className="resources">
+              {resources.map(({ title, url, icon }) => (
+                <li key={url}>
+                  <a
+                    className="resource"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="resource-icon">{icon}</span>
+                    <span>{title}</span>
+                    {externalArrow}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         }
         workflow={
-        <section className="workflow" aria-labelledby="workflow-title">
-          <h2 id="workflow-title">開発の流れ</h2>
-          <ol className="steps" role="list">
-            {steps.map(({ title, description }, index) => (
-              <li key={title}>
-                <span className="step-number" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
+          <section className="workflow" aria-labelledby="workflow-title">
+            <h2 id="workflow-title">開発の流れ</h2>
+            <ol className="steps" role="list">
+              {steps.map(({ title, description }, index) => (
+                <li key={title}>
+                  <span className="step-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
         }
       />
     </main>
