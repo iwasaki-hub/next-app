@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version-file: ".nvmrc"
 
       # No lockfile is committed in the bootstrap PR.
       # After adding package-lock.json, switch to npm ci and enable npm cache.
