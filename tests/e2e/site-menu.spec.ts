@@ -16,7 +16,7 @@ test("header menu works on mobile and closes after navigation or dismissal", asy
   await expect(toggle).toBeFocused();
 
   await toggle.click();
-  await page.getByRole("heading", { name: "ログイン", exact: true }).click();
+  await page.mouse.click(10, 110);
   await expect(guide).toBeHidden();
 
   await toggle.click();
@@ -25,4 +25,15 @@ test("header menu works on mobile and closes after navigation or dismissal", asy
   await expect(guide).toBeHidden();
   await expect(page.locator("#guide-content")).toBeInViewport();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
+});
+
+test("admin page is linked from the menu and reports missing Supabase configuration", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "メニュー" }).click();
+  await page.getByRole("link", { name: "管理ページ" }).click();
+
+  await expect(page).toHaveURL(/\/admin$/);
+  await expect(page.getByRole("heading", { name: "管理ページ", exact: true })).toBeVisible();
+  const status = page.getByRole("region", { name: "Supabase の接続状況" });
+  await expect(status.getByText("未設定", { exact: true })).toBeVisible();
 });

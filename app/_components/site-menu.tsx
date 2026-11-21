@@ -43,6 +43,7 @@ export default function SiteMenu({
         <ul>
           <li><Link href="/" onClick={closeMenu}>ホーム</Link></li>
           <li><Link href="/#guide-content" onClick={closeMenu}>開発ガイド</Link></li>
+          <li><Link href="/admin" prefetch={false} onClick={closeMenu}>管理ページ</Link></li>
           <li><Link href={accountLink.href} onClick={closeMenu}>{accountLink.label}</Link></li>
         </ul>
       </div>

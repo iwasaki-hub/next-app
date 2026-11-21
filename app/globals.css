@@ -1447,3 +1447,29 @@ body {
   cursor: wait;
   opacity: 0.75;
 }
+
+.admin-status {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--warm-line);
+}
+
+.admin-status h2 {
+  margin: 0 0 12px;
+  font-size: 1.125rem;
+  font-weight: 750;
+}
+
+.admin-status .admin-status-label {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #fbe5d2;
+  color: #743b20;
+  font-weight: 750;
+}
+
+.admin-status .admin-status-label[data-connection="connected"] {
+  background: #e1ecdf;
+  color: #285634;
+}
