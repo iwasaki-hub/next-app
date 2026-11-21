@@ -1318,3 +1318,54 @@ body {
     transition: none;
   }
 }
+
+
+/* Authenticated account page retains the existing warm glass design. */
+.account-card {
+  width: min(100%, 520px);
+  margin: clamp(30px, 8vh, 90px) auto;
+  padding: clamp(24px, 5vw, 42px);
+  border: 1px solid rgb(255 255 255 / 88%);
+  border-radius: 30px;
+  background: rgb(255 252 248 / 85%);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 20px 50px rgb(117 63 36 / 15%);
+}
+
+.account-card h1 {
+  margin: 16px 0;
+  color: #302620;
+  font-size: clamp(1.7rem, 6vw, 2.4rem);
+}
+
+.account-card p {
+  color: #66524b;
+  line-height: 1.7;
+}
+
+.account-email {
+  overflow-wrap: anywhere;
+  color: #7d371b !important;
+  font-weight: 780;
+}
+
+.account-home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 12px;
+  color: #8a3c1c;
+  font-weight: 780;
+  text-underline-offset: 4px;
+}
+
+.account-home:focus-visible {
+  outline: 3px solid #84411d;
+  outline-offset: 3px;
+}
+
+.auth-submit:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}

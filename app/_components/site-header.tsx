@@ -2,14 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import appIcon from "../icon.svg";
 import LoginButton from "./login-button";
+import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 type HeaderAction = "login" | "signup";
 
-export default function SiteHeader({
+export default async function SiteHeader({
   action = "login",
 }: {
   action?: HeaderAction;
 }) {
+  let signedIn = false;
+  if (isSupabaseConfigured()) {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    signedIn = Boolean(user);
+  }
+
   return (
     <header className="site-header">
       <nav className="site-header-inner" aria-label="サイトナビゲーション">
@@ -17,7 +26,7 @@ export default function SiteHeader({
           <Image src={appIcon} width={32} height={32} alt="" />
           <span>next-app</span>
         </Link>
-        <LoginButton action={action} />
+        <LoginButton action={signedIn ? "logout" : action} />
       </nav>
     </header>
   );
