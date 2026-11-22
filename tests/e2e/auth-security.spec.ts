@@ -14,3 +14,10 @@ test("invalid email confirmation links are rejected without exposing tokens", as
   await expect(page).toHaveURL(/\/login\?confirmation=failed$/);
   await expect(page.getByRole("main")).toBeVisible();
 });
+
+test("admin user list does not fetch data without Supabase configuration", async ({ page }) => {
+  await page.goto("/admin?page=2");
+  const section = page.getByRole("region", { name: "登録ユーザー一覧" });
+  await expect(section.getByText("Supabase の接続設定が必要です。")).toBeVisible();
+  await expect(section.getByRole("list")).toHaveCount(0);
+});

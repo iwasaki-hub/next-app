@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SiteHeader from "../_components/site-header";
+import RegisteredUsers from "./registered-users";
 import { getSupabaseConfig, isSupabaseConfigured } from "@/lib/supabase/config";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +44,14 @@ const connectionStatus = {
   },
 };
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const { page: param } = await searchParams;
+  const requestedPage = typeof param === "string" && /^\d+$/.test(param) ? Number(param) : 1;
+  const page = requestedPage >= 1 && requestedPage <= 2147483647 ? requestedPage : 1;
   const status = await checkSupabaseAuth();
   const { label, detail } = connectionStatus[status];
 
@@ -57,6 +65,10 @@ export default async function AdminPage() {
             <h2 id="supabase-status-title">Supabase の接続状況</h2>
             <p className="admin-status-label" data-connection={status}>{label}</p>
             <p>{detail}</p>
+          </section>
+          <section className="admin-status" aria-labelledby="registered-users-title">
+            <h2 id="registered-users-title">登録ユーザー一覧</h2>
+            <RegisteredUsers page={page} />
           </section>
         </div>
       </main>
