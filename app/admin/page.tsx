@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import SiteHeader from "../_components/site-header";
 import RegisteredUsers from "./registered-users";
-import { getSupabaseConfig, isSupabaseConfigured } from "@/lib/supabase/config";
+import { requireAdmin } from "@/lib/supabase/admin-access";
+import { getSupabaseConfig } from "@/lib/supabase/config";
 
 export const dynamic = "force-dynamic";
 
@@ -11,10 +12,6 @@ export const metadata: Metadata = {
 };
 
 async function checkSupabaseAuth() {
-  if (!isSupabaseConfigured()) {
-    return "unconfigured";
-  }
-
   const { url, key } = getSupabaseConfig();
   try {
     const response = await fetch(new URL("/auth/v1/settings", url), {
@@ -30,10 +27,6 @@ async function checkSupabaseAuth() {
 }
 
 const connectionStatus = {
-  unconfigured: {
-    label: "未設定",
-    detail: "この環境に Supabase の URL と公開キーを設定してください。",
-  },
   connected: {
     label: "接続済み",
     detail: "Supabase Auth API から正常な応答がありました。",
@@ -49,6 +42,8 @@ export default async function AdminPage({
 }: {
   searchParams: Promise<{ page?: string | string[] }>;
 }) {
+  await requireAdmin();
+
   const { page: param } = await searchParams;
   const requestedPage = typeof param === "string" && /^\d+$/.test(param) ? Number(param) : 1;
   const page = requestedPage >= 1 && requestedPage <= 2147483647 ? requestedPage : 1;

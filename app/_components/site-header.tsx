@@ -3,8 +3,7 @@ import Link from "next/link";
 import appIcon from "../icon.svg";
 import LoginButton from "./login-button";
 import SiteMenu from "./site-menu";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getVerifiedUser, isAdminUser } from "@/lib/supabase/admin-access";
 
 type HeaderAction = "login" | "signup";
 
@@ -13,16 +12,10 @@ export default async function SiteHeader({
 }: {
   action?: HeaderAction;
 }) {
-  let signedIn = false;
-  let emailInitials = "";
-  if (isSupabaseConfigured()) {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    signedIn = Boolean(user);
-    emailInitials = Array.from(user?.email ?? "").slice(0, 2).join("");
-  }
-
-  const headerAction = signedIn ? "logout" : action;
+  const user = await getVerifiedUser();
+  const headerAction = user ? "logout" : action;
+  const emailInitials = Array.from(user?.email ?? "").slice(0, 2).join("");
+  const showAdminLink = user ? isAdminUser(user.id) : false;
 
   return (
     <header className="site-header">
@@ -33,7 +26,7 @@ export default async function SiteHeader({
         </Link>
         <div className="site-header-actions">
           <LoginButton action={headerAction} />
-          <SiteMenu headerAction={headerAction} emailInitials={emailInitials} />
+          <SiteMenu headerAction={headerAction} emailInitials={emailInitials} showAdminLink={showAdminLink} />
         </div>
       </nav>
     </header>

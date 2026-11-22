@@ -1523,3 +1523,18 @@ body {
 .admin-user-pagination .account-home {
   margin-top: 0;
 }
+
+.admin-user-role {
+  justify-self: start;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #f3e9e1;
+  color: #62473b;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.admin-user-role[data-admin="true"] {
+  background: #e1ecdf;
+  color: #285634;
+}

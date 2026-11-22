@@ -2,8 +2,8 @@ import "server-only";
 
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Link from "next/link";
-import { getSupabaseConfig, isSupabaseConfigured } from "@/lib/supabase/config";
-import { createClient } from "@/lib/supabase/server";
+import { isAdminUser, requireAdmin } from "@/lib/supabase/admin-access";
+import { getSupabaseConfig } from "@/lib/supabase/config";
 
 const perPage = 20;
 const dateFormat = new Intl.DateTimeFormat("ja-JP", {
@@ -13,20 +13,7 @@ const dateFormat = new Intl.DateTimeFormat("ja-JP", {
 });
 
 export default async function RegisteredUsers({ page }: { page: number }) {
-  if (!isSupabaseConfigured()) {
-    return <p>Supabase の接続設定が必要です。</p>;
-  }
-
-  const sessionClient = await createClient();
-  const { data: { user }, error: sessionError } = await sessionClient.auth.getUser();
-  if (sessionError || !user) {
-    return <p>一覧を見るには管理者アカウントで<Link className="account-home" href="/login">ログイン</Link>してください。</p>;
-  }
-
-  const adminIds = process.env.ADMIN_USER_IDS?.split(",").map((id) => id.trim());
-  if (!adminIds?.includes(user.id)) {
-    return <p>登録ユーザー一覧は管理者のみ閲覧できます。</p>;
-  }
+  await requireAdmin();
 
   const secretKey = process.env.SUPABASE_SECRET_KEY;
   if (!secretKey) {
@@ -58,15 +45,21 @@ export default async function RegisteredUsers({ page }: { page: number }) {
         <p>{page === 1 ? "登録ユーザーはまだいません。" : "このページにユーザーはいません。"}</p>
       ) : (
         <ul className="admin-user-list">
-          {data.users.map(({ id, email, created_at, user_metadata }) => (
-            <li key={id}>
-              {typeof user_metadata?.username === "string" && user_metadata.username.trim() && (
-                <strong>{user_metadata.username}</strong>
-              )}
-              <span>{email ?? "メールアドレス未設定"}</span>
-              <time dateTime={created_at}>登録日 {dateFormat.format(new Date(created_at))}</time>
-            </li>
-          ))}
+          {data.users.map(({ id, email, created_at, user_metadata }) => {
+            const isAdmin = isAdminUser(id);
+            return (
+              <li key={id}>
+                <span className="admin-user-role" data-admin={isAdmin}>
+                  {isAdmin ? "管理者" : "一般ユーザー"}
+                </span>
+                {typeof user_metadata?.username === "string" && user_metadata.username.trim() && (
+                  <strong>{user_metadata.username}</strong>
+                )}
+                <span>{email ?? "メールアドレス未設定"}</span>
+                <time dateTime={created_at}>登録日 {dateFormat.format(new Date(created_at))}</time>
+              </li>
+            );
+          })}
         </ul>
       )}
       {(page > 1 || hasNextPage) && (
