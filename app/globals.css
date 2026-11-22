@@ -1538,3 +1538,78 @@ body {
   background: #e1ecdf;
   color: #285634;
 }
+
+.todo-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.todo-entry .auth-submit {
+  min-height: 52px;
+  margin-top: 0;
+}
+
+.todo-items {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 20px 0 0;
+  list-style: none;
+}
+
+.todo-items li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid var(--warm-line);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 62%);
+}
+
+.todo-items label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding-inline: 4px;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.todo-items input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  accent-color: #8b3818;
+}
+
+.todo-items input:checked + span {
+  color: #6b574d;
+  text-decoration: line-through;
+}
+
+.todo-delete {
+  min-height: 44px;
+  padding-inline: 8px;
+  border-radius: 10px;
+  color: #843d25;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.todo-delete:hover {
+  background: #ffe6d3;
+}
+
+.todo-delete:focus-visible,
+.todo-items input:focus-visible {
+  outline: 3px solid #84411d;
+  outline-offset: 2px;
+}
+
+.todo-empty {
+  margin-top: 20px;
+}
