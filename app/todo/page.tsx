@@ -7,6 +7,8 @@ import SiteHeader from "../_components/site-header";
 import TodoList from "./todo-list";
 import type { Task } from "./task";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ToDoリスト | next-app",
 };
