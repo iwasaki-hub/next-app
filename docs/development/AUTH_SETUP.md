@@ -71,3 +71,14 @@ Supabase Dashboard の **Authentication → Users** で、管理ページの閲�
 | `SUPABASE_SECRET_KEY` | 同じ Supabase プロジェクトの **Settings → API Keys** にある Secret key |
 
 どちらもサーバー専用です。Secret key を `NEXT_PUBLIC_` 付き変数や GitHub に登録しないでください。Vercel では設定後に対象環境を再デプロイします。許可したアカウントでログインして `/admin` を開くと、登録ユーザーが20件ずつ表示されます。各ユーザーの「管理者」「一般ユーザー」は `ADMIN_USER_IDS` をもとに表示します。
+
+## ToDo のアカウント保存
+
+ToDo のアカウント保存を有効にするには、対象の Supabase プロジェクトに
+`supabase/migrations/20261122140000_create_todo_tasks.sql` を適用します。
+ログイン済みの利用者は自分の ToDo を作成、閲覧、完了切り替え、削除できます。
+公開キーとログインセッションを使い、テーブルの RLS で所有者を照合します。
+
+未ログイン時はブラウザに保存します。ログイン後に「このブラウザのタスクを取り込む」を
+選ぶと、現在ログインしているアカウントへ移せます。取り込んだタスクを別の端末で
+確認するときは、同じアカウントでログインして ToDo ページを開き直します。
