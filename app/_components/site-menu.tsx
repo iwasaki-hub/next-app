@@ -62,6 +62,7 @@ export default function SiteMenu({
       <div className="site-menu-panel" id={menuId} popover="auto" ref={panel}>
         <ul>
           <li><Link href="/" onClick={closeMenu}>ホーム</Link></li>
+          <li><Link href="/todo" onClick={closeMenu}>ToDoリスト</Link></li>
           <li><Link href="/#guide-content" onClick={closeMenu}>開発ガイド</Link></li>
           {showAdminLink && (
             <li><Link href="/admin" prefetch={false} onClick={closeMenu}>管理ページ</Link></li>
