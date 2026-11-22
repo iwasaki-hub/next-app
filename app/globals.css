@@ -1492,3 +1492,34 @@ body {
   background: #e1ecdf;
   color: #285634;
 }
+
+.admin-user-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-user-list li {
+  display: grid;
+  gap: 4px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--warm-line);
+  overflow-wrap: anywhere;
+}
+
+.admin-user-list time {
+  color: #66524b;
+  font-size: 0.8125rem;
+}
+
+.admin-user-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-user-pagination .account-home {
+  margin-top: 0;
+}

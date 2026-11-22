@@ -60,3 +60,14 @@ Previewで認証を検証してからPRをマージします。その後、Supab
 参考： https://supabase.com/docs/guides/auth/redirect-urls
 参考： https://supabase.com/docs/guides/auth/server-side/creating-a-client
 参考： https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs
+
+## 管理ページの登録ユーザー一覧
+
+Supabase Dashboard の **Authentication → Users** で、一覧の閲覧を許可するアカウントの User UID を確認します。Vercel の対象環境またはローカルの `.env.local` に以下を設定します。
+
+| 変数 | 値 |
+| --- | --- |
+| `ADMIN_USER_IDS` | 許可する User UID。複数の場合はカンマ区切り |
+| `SUPABASE_SECRET_KEY` | 同じ Supabase プロジェクトの **Settings → API Keys** にある Secret key |
+
+どちらもサーバー専用です。Secret key を `NEXT_PUBLIC_` 付き変数や GitHub に登録しないでください。Vercel では設定後に対象環境を再デプロイします。許可したアカウントでログインして `/admin` を開くと、登録ユーザーが20件ずつ表示されます。
