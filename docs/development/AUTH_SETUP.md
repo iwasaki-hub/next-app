@@ -75,7 +75,7 @@ Supabase Dashboard の **Authentication → Users** で、管理ページの閲�
 ## ToDo のアカウント保存
 
 ToDo のアカウント保存を有効にするには、対象の Supabase プロジェクトに
-`supabase/migrations/20261122140000_create_todo_tasks.sql` を適用します。
+`supabase/migrations/20261122045325_create_todo_tasks.sql` を適用します。
 ログイン済みの利用者は自分の ToDo を作成、閲覧、完了切り替え、削除できます。
 公開キーとログインセッションを使い、テーブルの RLS で所有者を照合します。
 
