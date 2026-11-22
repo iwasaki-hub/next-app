@@ -6,9 +6,11 @@ import { useEffect, useId, useRef } from "react";
 export default function SiteMenu({
   headerAction,
   emailInitials,
+  showAdminLink,
 }: {
   headerAction: "login" | "signup" | "logout";
   emailInitials: string;
+  showAdminLink: boolean;
 }) {
   const menuId = useId();
   const panel = useRef<HTMLDivElement>(null);
@@ -61,7 +63,9 @@ export default function SiteMenu({
         <ul>
           <li><Link href="/" onClick={closeMenu}>ホーム</Link></li>
           <li><Link href="/#guide-content" onClick={closeMenu}>開発ガイド</Link></li>
-          <li><Link href="/admin" prefetch={false} onClick={closeMenu}>管理ページ</Link></li>
+          {showAdminLink && (
+            <li><Link href="/admin" prefetch={false} onClick={closeMenu}>管理ページ</Link></li>
+          )}
           <li><Link href={accountLink.href} onClick={closeMenu}>{accountLink.label}</Link></li>
         </ul>
       </div>

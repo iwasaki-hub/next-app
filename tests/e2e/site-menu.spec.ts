@@ -27,15 +27,11 @@ test("header menu works on mobile and closes after navigation or dismissal", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
 });
 
-test("admin page is linked from the menu and reports missing Supabase configuration", async ({ page }) => {
+test("the menu hides the admin link from signed-out visitors", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "メニュー" }).click();
-  await page.getByRole("link", { name: "管理ページ" }).click();
-
-  await expect(page).toHaveURL(/\/admin$/);
-  await expect(page.getByRole("heading", { name: "管理ページ", exact: true })).toBeVisible();
-  const status = page.getByRole("region", { name: "Supabase の接続状況" });
-  await expect(status.getByText("未設定", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "開発ガイド" })).toBeVisible();
+  await expect(page.locator('.site-menu-panel a[href="/admin"]')).toHaveCount(0);
 });
 
 test("home menu switches icons and closes on scroll", async ({ page }) => {
@@ -68,7 +64,7 @@ test("home menu switches icons and closes on scroll", async ({ page }) => {
   await expect(closeIcon).toBeHidden();
 });
 
-for (const route of ["/admin", "/login", "/signup"]) {
+for (const route of ["/login", "/signup"]) {
   test(`menu closes on scroll at ${route}`, async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 320 });
     await page.goto(route);
